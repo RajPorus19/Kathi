@@ -29,8 +29,8 @@ map("t", "<A-j>", "<C-\\><C-N><C-w>j", opts)
 map("t", "<A-k>", "<C-\\><C-N><C-w>k", opts)
 map("t", "<A-l>", "<C-\\><C-N><C-w>l", opts)
 
--- ── LSP (will be set up in lsp.lua) ──
--- gd, gy, gi, gr mapped there via on_attach
+-- ── LSP ──
+-- gd, gy, gi, gr mapped in plugins.lua via on_attach
 
 -- ── Telescope ──
 map("n", "<leader>sp", "<cmd>Telescope live_grep<CR>", { desc = "Search project" })

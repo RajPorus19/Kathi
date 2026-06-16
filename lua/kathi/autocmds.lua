@@ -29,6 +29,21 @@ autocmd("BufReadPost", {
 autocmd("TextYankPost", {
   group = kathi_group,
   callback = function()
-    vim.highlight.on_yank({ higroup = "IncSearch", timeout = 150 })
+    vim.hl.on_yank({ higroup = "IncSearch", timeout = 150 })
+  end,
+})
+
+-- Treesitter highlighting and indentation
+autocmd("FileType", {
+  group = kathi_group,
+  pattern = {
+    "lua", "vim", "help",
+    "python", "javascript", "typescript",
+    "html", "css", "json", "yaml", "markdown",
+    "bash", "sh", "c", "cpp", "rust", "go", "dart",
+  },
+  callback = function()
+    vim.treesitter.start()
+    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
   end,
 })

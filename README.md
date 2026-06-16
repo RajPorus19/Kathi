@@ -12,8 +12,7 @@ Just as a cook needs a sharp, trusted **kathi** to work with precision and speed
 │   ├── options.lua       # General Neovim settings
 │   ├── keymaps.lua       # All keybindings (muscle memory, preserved)
 │   ├── autocmds.lua      # Autocommands (whitespace cleanup, cursor restore, etc.)
-│   ├── plugins.lua       # Plugin specs (lazy.nvim)
-│   └── lsp.lua           # Native LSP + Mason + nvim-cmp
+│   └── plugins.lua       # Plugin specs + LSP/Mason/nvim-cmp setup (lazy.nvim)
 └── old-config/
     ├── init.vim          # The original Vimscript config (2019–2024)
     └── LEGACY.md         # Why it stayed untouched for 5 years
@@ -35,6 +34,16 @@ All the original keybindings (`<leader>op` for file tree, `<leader>sp` for searc
 
 ## Installation
 
+### Prerequisites
+
+Neovim 0.12+ with `git` installed. For Treesitter parsers (new `nvim-treesitter` main branch), you also need:
+
+```bash
+brew install tree-sitter
+```
+
+### Setup
+
 ```bash
 # Clone into your Neovim config directory
 git clone https://github.com/RajPorus19/Kathi.git ~/.config/nvim
@@ -44,6 +53,8 @@ nvim
 ```
 
 On first launch, `lazy.nvim` will install itself, then all plugins and Mason LSP servers will be fetched automatically. Just wait for the install to finish and you're ready.
+
+If plugins don't appear after cloning, run `:Lazy sync` inside Neovim.
 
 ## Philosophy
 

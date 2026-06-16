@@ -15,26 +15,7 @@ return {
       "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
-      require("mason").setup()
-      require("mason-lspconfig").setup({
-        ensure_installed = {
-          "lua_ls",
-          "pyright",
-          "ts_ls",
-          "rust_analyzer",
-          "gopls",
-          "dartls",
-          "bashls",
-          "jsonls",
-          "yamlls",
-          "html",
-          "cssls",
-        },
-        automatic_installation = true,
-      })
-
-      -- Shared on_attach for all LSP servers
-      local on_attach = function(client, bufnr)
+      local on_attach = function(_, bufnr)
         local map = vim.keymap.set
         local opts = { buffer = bufnr, noremap = true, silent = true }
 
@@ -49,15 +30,25 @@ return {
         map("n", "]d", vim.diagnostic.goto_next, opts)
       end
 
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      vim.lsp.config("*", {
+        on_attach = on_attach,
+        capabilities = require("cmp_nvim_lsp").default_capabilities(),
+      })
 
-      require("mason-lspconfig").setup_handlers({
-        function(server_name)
-          require("lspconfig")[server_name].setup({
-            on_attach = on_attach,
-            capabilities = capabilities,
-          })
-        end,
+      require("mason-lspconfig").setup({
+        ensure_installed = {
+          "lua_ls",
+          "pyright",
+          "ts_ls",
+          "rust_analyzer",
+          "gopls",
+          "dartls",
+          "bashls",
+          "jsonls",
+          "yamlls",
+          "html",
+          "cssls",
+        },
       })
     end,
   },
@@ -191,20 +182,16 @@ return {
   -- ═══ Treesitter ═══
   {
     "nvim-treesitter/nvim-treesitter",
+    lazy = false,
     build = ":TSUpdate",
-    config = function()
-      require("nvim-treesitter.configs").setup({
-        ensure_installed = {
-          "lua", "vim", "vimdoc",
-          "python", "javascript", "typescript",
-          "html", "css", "json", "yaml",
-          "markdown", "markdown_inline",
-          "bash", "c", "cpp", "rust", "go",
-          "dart",
-        },
-        auto_install = true,
-        highlight = { enable = true },
-        indent = { enable = true },
+    init = function()
+      require("nvim-treesitter").install({
+        "lua", "vim", "vimdoc",
+        "python", "javascript", "typescript",
+        "html", "css", "json", "yaml",
+        "markdown", "markdown_inline",
+        "bash", "c", "cpp", "rust", "go",
+        "dart",
       })
     end,
   },

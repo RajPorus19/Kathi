@@ -1,5 +1,5 @@
 -- ═══════════════════════════════════════════════
--- Kathi 🪚 — A developer's Neovim config, sharp and personal.
+-- Kathi 🔪 — A developer's Neovim config, sharp and personal.
 -- ═══════════════════════════════════════════════
 
 -- Bootstrap lazy.nvim
@@ -20,4 +20,4 @@ vim.opt.rtp:prepend(lazypath)
 require("kathi.options")
 require("kathi.keymaps")
 require("kathi.autocmds")
-require("kathi.plugins")
+require("lazy").setup("kathi.plugins")
