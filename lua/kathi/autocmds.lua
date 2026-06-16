@@ -50,6 +50,24 @@ autocmd("TextYankPost", {
   end,
 })
 
+-- LSP keymaps (reliable across all servers once attached).
+autocmd("LspAttach", {
+  group = kathi_group,
+  callback = function(event)
+    local map = vim.keymap.set
+    local opts = { buffer = event.buf, noremap = true, silent = true }
+    map("n", "gd", vim.lsp.buf.definition, opts)
+    map("n", "gy", vim.lsp.buf.type_definition, opts)
+    map("n", "gi", vim.lsp.buf.implementation, opts)
+    map("n", "gr", vim.lsp.buf.references, opts)
+    map("n", "K", vim.lsp.buf.hover, opts)
+    map("n", "<leader>rn", vim.lsp.buf.rename, opts)
+    map("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+    map("n", "[d", vim.diagnostic.goto_prev, opts)
+    map("n", "]d", vim.diagnostic.goto_next, opts)
+  end,
+})
+
 -- Treesitter highlighting and indentation
 autocmd("FileType", {
   group = kathi_group,
