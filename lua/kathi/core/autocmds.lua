@@ -14,6 +14,8 @@ vim.filetype.add({
     [".*%.ya?ml%.docker%-compose"] = "yaml",
     [".*%.ya?ml%.gitlab"] = "yaml",
     [".*%.ya?ml%.helm%-values"] = "yaml",
+    [".*/templates/.*%.html"] = "djangohtml",
+    [".*/templates/.*%.djhtml"] = "djangohtml",
   },
 })
 
@@ -74,7 +76,7 @@ autocmd("FileType", {
   pattern = {
     "lua", "vim", "help",
     "python", "javascript", "typescript",
-    "html", "css", "json", "yaml", "markdown",
+    "html", "djangohtml", "css", "json", "yaml", "markdown",
     "bash", "sh", "c", "cpp", "rust", "go", "dart",
   },
   callback = function()

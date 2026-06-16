@@ -32,17 +32,7 @@ function M.manage_py_path()
 end
 
 function M.python_executable()
-  local venv = vim.env.VIRTUAL_ENV
-  if venv and venv ~= "" then
-    local bin = venv .. "/bin/python"
-    if vim.fn.executable(bin) == 1 then
-      return bin
-    end
-  end
-  if vim.fn.executable("python3") == 1 then
-    return "python3"
-  end
-  return "python"
+  return require("kathi.stacks.python.venv").python_executable()
 end
 
 function M.django_settings_module(root)
@@ -74,9 +64,10 @@ function M.django_env()
   if settings then
     env.DJANGO_SETTINGS_MODULE = settings
   end
-  if vim.env.VIRTUAL_ENV and vim.env.VIRTUAL_ENV ~= "" then
-    env.VIRTUAL_ENV = vim.env.VIRTUAL_ENV
-    env.PATH = vim.env.VIRTUAL_ENV .. "/bin:" .. (vim.env.PATH or "")
+  local venv = require("kathi.stacks.python.venv").get()
+  if venv then
+    env.VIRTUAL_ENV = venv
+    env.PATH = venv .. "/bin:" .. (vim.env.PATH or "")
   end
   return env
 end

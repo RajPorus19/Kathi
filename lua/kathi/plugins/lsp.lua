@@ -16,6 +16,16 @@ return {
         capabilities = require("cmp_nvim_lsp").default_capabilities(),
       })
 
+      vim.lsp.config("pyright", {
+        before_init = function(_, config)
+          config.settings = vim.tbl_deep_extend(
+            "force",
+            config.settings or {},
+            require("kathi.stacks.python.venv").pyright_settings()
+          )
+        end,
+      })
+
       require("mason-lspconfig").setup({
         ensure_installed = {
           "lua_ls",
