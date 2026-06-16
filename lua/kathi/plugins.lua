@@ -75,6 +75,29 @@ return {
     end,
   },
 
+  -- ═══ AI Autocomplete (DeepSeek via llm.nvim) ═══
+  {
+    "huggingface/llm.nvim",
+    event = "VeryLazy",
+    opts = {
+      backend = "openai",
+      model = "deepseek-chat",
+      url = "https://api.deepseek.com/beta/completions",
+      disable_url_path_completion = true,
+      api_token = function()
+        return os.getenv("DEEPSEEK_API_KEY")
+      end,
+      enable_suggestions_on_startup = true,
+      accept_keymap = "<Tab>",
+      dismiss_keymap = "<S-Tab>",
+      debounce_ms = 300,
+      request_body = {
+        temperature = 0.2,
+        max_tokens = 64,
+      },
+    },
+  },
+
   -- ═══ Theme ═══
   {
     "catppuccin/nvim",

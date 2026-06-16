@@ -6,13 +6,13 @@ Just as a cook needs a sharp, trusted **kathi** to work with precision and speed
 
 ## What's Inside
 
-```
+``` 
 ├── init.lua              # Entry point — bootstraps lazy.nvim, loads config
 ├── lua/kathi/
 │   ├── options.lua       # General Neovim settings
 │   ├── keymaps.lua       # All keybindings (muscle memory, preserved)
 │   ├── autocmds.lua      # Autocommands (whitespace cleanup, cursor restore, etc.)
-│   └── plugins.lua       # Plugin specs + LSP/Mason/nvim-cmp setup (lazy.nvim)
+│   └── plugins.lua       # Plugin specs + LSP/Mason/nvim-cmp + AI autocomplete
 └── old-config/
     ├── init.vim          # The original Vimscript config (2019–2024)
     └── LEGACY.md         # Why it stayed untouched for 5 years
@@ -29,6 +29,7 @@ Just as a cook needs a sharp, trusted **kathi** to work with precision and speed
 | Git | `vim-fugitive` | `neogit` + `gitsigns` |
 | Theme | `nord` | `catppuccin` (mocha) |
 | Config language | Vimscript | Lua |
+| AI autocomplete | — | `llm.nvim` + DeepSeek |
 
 All the original keybindings (`<leader>op` for file tree, `<leader>sp` for search, `gd`/`gr` for LSP navigation, `<C-hjkl>` for window resizing, etc.) have been preserved.
 
@@ -40,6 +41,13 @@ Neovim 0.12+ with `git` installed. For Treesitter parsers (new `nvim-treesitter`
 
 ```bash
 brew install tree-sitter
+```
+
+**AI autocomplete** uses DeepSeek. Export your API key:
+
+```bash
+export DEEPSEEK_API_KEY="sk-..."
+# add to ~/.zshrc for persistence
 ```
 
 Python provider is kept enabled by default. If you want Python-powered plugins, install:
