@@ -60,7 +60,10 @@ return {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
-      "L3MON4D3/LuaSnip",
+      {
+        "L3MON4D3/LuaSnip",
+        build = "make install_jsregexp",
+      },
       "saadparwaiz1/cmp_luasnip",
     },
     config = function()
@@ -160,7 +163,13 @@ return {
     "NeogitOrg/neogit",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "sindrets/diffview.nvim",
+      {
+        "sindrets/diffview.nvim",
+        opts = {
+          -- Silence Mercurial executable warnings on Git-only setups.
+          hg_cmd = { "git" },
+        },
+      },
     },
     config = true,
   },
@@ -205,16 +214,6 @@ return {
     "nvim-treesitter/nvim-treesitter",
     lazy = false,
     build = ":TSUpdate",
-    init = function()
-      require("nvim-treesitter").install({
-        "lua", "vim", "vimdoc",
-        "python", "javascript", "typescript",
-        "html", "css", "json", "yaml",
-        "markdown", "markdown_inline",
-        "bash", "c", "cpp", "rust", "go",
-        "dart",
-      })
-    end,
   },
 
   -- ═══ Rooter ═══

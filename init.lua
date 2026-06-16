@@ -20,4 +20,6 @@ vim.opt.rtp:prepend(lazypath)
 require("kathi.options")
 require("kathi.keymaps")
 require("kathi.autocmds")
-require("lazy").setup("kathi.plugins")
+require("lazy").setup("kathi.plugins", {
+  rocks = { enabled = false },
+})

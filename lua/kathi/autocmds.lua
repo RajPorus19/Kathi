@@ -5,6 +5,18 @@ local autocmd = vim.api.nvim_create_autocmd
 
 local kathi_group = augroup("Kathi", { clear = true })
 
+-- Normalize dotted/special filetypes so LSP health checks stay clean.
+vim.filetype.add({
+  extension = {
+    gotmpl = "gotmpl",
+  },
+  pattern = {
+    [".*%.ya?ml%.docker%-compose"] = "yaml",
+    [".*%.ya?ml%.gitlab"] = "yaml",
+    [".*%.ya?ml%.helm%-values"] = "yaml",
+  },
+})
+
 -- Remove trailing whitespace on save
 autocmd("BufWritePre", {
   group = kathi_group,

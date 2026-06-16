@@ -42,6 +42,12 @@ Neovim 0.12+ with `git` installed. For Treesitter parsers (new `nvim-treesitter`
 brew install tree-sitter
 ```
 
+Python provider is kept enabled by default. If you want Python-powered plugins, install:
+
+```bash
+python3 -m pip install --user pynvim
+```
+
 ### Setup
 
 ```bash
@@ -55,6 +61,7 @@ nvim
 On first launch, `lazy.nvim` will install itself, then all plugins and Mason LSP servers will be fetched automatically. Just wait for the install to finish and you're ready.
 
 If plugins don't appear after cloning, run `:Lazy sync` inside Neovim.
+Then update Treesitter parsers manually with `:TSUpdate`.
 
 ## Philosophy
 
