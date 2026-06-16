@@ -9,7 +9,12 @@ local kathi_group = augroup("Kathi", { clear = true })
 autocmd("BufWritePre", {
   group = kathi_group,
   pattern = "*",
-  command = "%s/\\s\\+$//e",
+  callback = function()
+    if not vim.bo.modifiable or vim.bo.binary or vim.bo.buftype ~= "" then
+      return
+    end
+    pcall(vim.cmd, [[keeppatterns %s/\s\+$//e]])
+  end,
 })
 
 -- Return to last edit position on open
@@ -43,7 +48,15 @@ autocmd("FileType", {
     "bash", "sh", "c", "cpp", "rust", "go", "dart",
   },
   callback = function()
-    vim.treesitter.start()
-    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+    -- Defer so async parser installs can finish; never error on open.
+    vim.schedule(function()
+      if not vim.api.nvim_buf_is_valid(0) then
+        return
+      end
+      local ok = pcall(vim.treesitter.start)
+      if ok then
+        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      end
+    end)
   end,
 })
