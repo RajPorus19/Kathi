@@ -12,6 +12,8 @@ Just as a cook needs a sharp, trusted **kathi** to work with precision and speed
 │   ├── options.lua       # General Neovim settings
 │   ├── keymaps.lua       # All keybindings (muscle memory, preserved)
 │   ├── autocmds.lua      # Autocommands (whitespace cleanup, cursor restore, etc.)
+│   ├── python.lua        # Django test runner + project detection
+│   ├── dap.lua           # DAP configs (Django, Celery) + debug keymaps
 │   └── plugins.lua       # Plugin specs + LSP/Mason/nvim-cmp
 └── old-config/
     ├── init.vim          # The original Vimscript config (2019–2024)
@@ -62,6 +64,62 @@ On first launch, `lazy.nvim` will install itself, then all plugins and Mason LSP
 
 If plugins don't appear after cloning, run `:Lazy sync` inside Neovim.
 Then update Treesitter parsers manually with `:TSUpdate`.
+
+## Django / Celery — tests & debug (DAP)
+
+When working on a Django project, Kathi can run unit tests and debug views, tests, and Celery tasks directly from the editor.
+
+### Prerequisites
+
+- A Django project with `manage.py` at the root (or a parent directory)
+- Your virtualenv activated (`VIRTUAL_ENV` set) before launching Neovim
+- `debugpy` is auto-installed via Mason on first use (`:Mason` → `debugpy`)
+- For Celery debugging: `celery` installed in the project venv
+
+### Workflow
+
+1. Open a Python file in your Django project
+2. Set a breakpoint with `<leader>db`
+3. Launch a debug session:
+   - `<leader>dD` — Django `runserver` (no reload, debug-friendly)
+   - `<leader>dt` — debug the test under the cursor
+   - `<leader>dC` — Celery worker (`--pool=solo` for breakpoints in tasks)
+4. Inspect variables in the DAP UI panels (scopes, watches, stacks) or inline via virtual text
+5. Use `<leader>de` to evaluate expressions in the REPL
+
+### Test runner (`manage.py test`)
+
+| Keymap | Action |
+|--------|--------|
+| `<leader>tt` | Run test at cursor (class, method, or file module) |
+| `<leader>tf` | Run all tests in current file |
+| `<leader>tr` | Rerun last test command |
+
+Tests open in a horizontal terminal split. Fix code, then `<leader>tr` to rerun.
+
+### Debug keymaps
+
+| Keymap | Action |
+|--------|--------|
+| `<leader>db` | Toggle breakpoint |
+| `<leader>dB` | Conditional breakpoint |
+| `<leader>dc` | Continue / pick config |
+| `<leader>do` | Step over |
+| `<leader>di` | Step into |
+| `<leader>dO` | Step out |
+| `<leader>du` | Toggle DAP UI (variables, watches, stacks) |
+| `<leader>de` | Eval expression |
+| `<leader>dr` | Open debug REPL |
+| `<leader>dx` | Terminate session |
+| `<leader>dD` | Debug Django runserver |
+| `<leader>dt` | Debug test at cursor |
+| `<leader>dC` | Debug Celery worker |
+
+### Tips
+
+- `DJANGO_SETTINGS_MODULE` is read automatically from `manage.py`
+- Celery app name (`-A`) is guessed from `celery.py` or settings; you'll be prompted if ambiguous
+- For Celery task breakpoints, the worker must run with `--pool=solo` (configured automatically)
 
 ## Philosophy
 

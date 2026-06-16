@@ -217,7 +217,7 @@ return {
   {
     "airblade/vim-rooter",
     init = function()
-      vim.g.rooter_patterns = { ".git", "Makefile" }
+      vim.g.rooter_patterns = { ".git", "Makefile", "manage.py" }
     end,
   },
 
@@ -233,5 +233,24 @@ return {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
     config = true,
+  },
+
+  -- ═══ DAP (Django / Celery / Python debug) ═══
+  {
+    "mfussenegger/nvim-dap",
+    dependencies = {
+      "rcarriga/nvim-dap-ui",
+      "theHamsta/nvim-dap-virtual-text",
+      "mfussenegger/nvim-dap-python",
+      "jay-babu/mason-nvim-dap.nvim",
+    },
+    ft = { "python" },
+    config = function()
+      require("mason-nvim-dap").setup({
+        ensure_installed = { "debugpy" },
+        automatic_installation = true,
+      })
+      require("kathi.dap").setup()
+    end,
   },
 }
