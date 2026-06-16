@@ -2,7 +2,7 @@
 
 **கத்தி** (Tamil: *knife*)
 
-Just as a cook needs a sharp, trusted **kathi** to work with precision and speed, a developer needs an editor that's been honed to *their* hand. This repository is my kathi — a Neovim configuration sharpened over years of daily use, now reforged in Lua for the modern era.
+Just as a cook needs a sharp, trusted **kathi** to work with precision and speed, a developer needs an editor that's been honed to *their* hand. This repository is my kathi : a Neovim configuration sharpened over years of daily use, now reforged in Lua for the modern era.
 
 ## What's Inside
 
@@ -51,8 +51,3 @@ On first launch, `lazy.nvim` will install itself, then all plugins and Mason LSP
 - **Personal.** This is *my* config. Fork it, steal from it, but make it yours.
 - **Evolving.** The old `init.vim` served for half a decade. This one will too — but in Lua.
 
----
-
-> *ஒரு சமையல்காரருக்கு நல்ல கத்தி எப்படி தேவையோ, அதே போல் ஒரு டெவலப்பருக்கும் அவருக்கு ஏற்ற எடிட்டர் தேவை.*
->
-> *Just as a cook needs a good knife, a developer needs an editor that fits them.*
