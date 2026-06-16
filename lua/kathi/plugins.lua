@@ -75,34 +75,6 @@ return {
     end,
   },
 
-  -- ═══ AI Assistant (Avante + DeepSeek/OpenAI-compatible) ═══
-  {
-    "yetone/avante.nvim",
-    event = "VeryLazy",
-    build = "make",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "stevearc/dressing.nvim",
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-    },
-    opts = {
-      provider = "openai",
-      auto_suggestions_provider = "openai",
-      providers = {
-        openai = {
-          endpoint = "https://api.deepseek.com/v1",
-          model = "deepseek-chat",
-          api_key_name = "DEEPSEEK_API_KEY",
-        },
-      },
-      behaviour = {
-        auto_suggestions = false,
-        auto_set_keymaps = false,
-      },
-    },
-  },
-
   -- ═══ Theme ═══
   {
     "catppuccin/nvim",
