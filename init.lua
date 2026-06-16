@@ -16,10 +16,10 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Load config modules
-require("kathi.options")
-require("kathi.keymaps")
-require("kathi.autocmds")
-require("lazy").setup("kathi.plugins", {
+-- Load core modules
+require("kathi.core.options")
+require("kathi.core.keymaps")
+require("kathi.core.autocmds")
+require("lazy").setup("kathi.plugins.init", {
   rocks = { enabled = false },
 })

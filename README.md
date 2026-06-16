@@ -6,18 +6,36 @@ Just as a cook needs a sharp, trusted **kathi** to work with precision and speed
 
 ## What's Inside
 
-``` 
-├── init.lua              # Entry point — bootstraps lazy.nvim, loads config
+```
+├── init.lua                    # Entry point — bootstrap + core loading
 ├── lua/kathi/
-│   ├── options.lua       # General Neovim settings
-│   ├── keymaps.lua       # All keybindings (muscle memory, preserved)
-│   ├── autocmds.lua      # Autocommands (whitespace cleanup, cursor restore, etc.)
-│   ├── python.lua        # Django test runner + project detection
-│   ├── dap.lua           # DAP configs (Django, Celery) + debug keymaps
-│   └── plugins.lua       # Plugin specs + LSP/Mason/nvim-cmp
+│   ├── core/
+│   │   ├── options.lua         # Global Neovim options
+│   │   ├── keymaps.lua         # Global/editor keymaps
+│   │   └── autocmds.lua        # Global autocmds + LspAttach maps
+│   ├── plugins/
+│   │   ├── init.lua            # Plugin spec aggregator
+│   │   ├── lsp.lua             # Mason + LSP servers
+│   │   ├── completion.lua      # nvim-cmp + snippets
+│   │   ├── editor.lua          # Telescope, neo-tree, treesitter, rooter...
+│   │   ├── ui.lua              # Theme, lualine, which-key
+│   │   ├── git.lua             # Neogit + gitsigns
+│   │   └── debug.lua           # DAP plugin layer
+│   ├── stacks/
+│   │   └── python/
+│   │       ├── init.lua        # Python stack entrypoint
+│   │       ├── django.lua      # Django root/settings/target detection
+│   │       ├── tests.lua       # manage.py test runner
+│   │       └── dap.lua         # DAP profiles + stack keymaps
+│   ├── utils/
+│   │   ├── notify.lua          # Notification helpers
+│   │   └── paths.lua           # Path helpers
+│   ├── plugins.lua             # Compatibility wrapper
+│   ├── python.lua              # Compatibility wrapper
+│   └── dap.lua                 # Compatibility wrapper
 └── old-config/
-    ├── init.vim          # The original Vimscript config (2019–2024)
-    └── LEGACY.md         # Why it stayed untouched for 5 years
+    ├── init.vim                # Original Vimscript config (2019–2024)
+    └── LEGACY.md               # Why it stayed untouched for 5 years
 ```
 
 ## Key Design Decisions
@@ -33,6 +51,14 @@ Just as a cook needs a sharp, trusted **kathi** to work with precision and speed
 | Config language | Vimscript | Lua |
 
 All the original keybindings (`<leader>op` for file tree, `<leader>sp` for search, `gd`/`gr` for LSP navigation, `<C-hjkl>` for window resizing, etc.) have been preserved.
+
+## Architecture Conventions
+
+- `core/*`: editor-global behavior only (options, generic keymaps, generic autocmds).
+- `plugins/*`: lazy specs grouped by concern (UI/editor/git/LSP/completion/debug).
+- `stacks/<lang>/*`: stack-specific workflows (for now: Python/Django/Celery).
+- Stack keymaps live in the stack module, not in global `core/keymaps.lua`.
+- Keep side effects inside `setup()` functions where possible.
 
 ## Installation
 
