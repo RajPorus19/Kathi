@@ -75,25 +75,30 @@ return {
     end,
   },
 
-  -- ═══ AI Autocomplete (DeepSeek via llm.nvim) ═══
+  -- ═══ AI Assistant (Avante + DeepSeek/OpenAI-compatible) ═══
   {
-    "huggingface/llm.nvim",
+    "yetone/avante.nvim",
     event = "VeryLazy",
+    build = "make",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "stevearc/dressing.nvim",
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+    },
     opts = {
-      backend = "openai",
-      model = "deepseek-chat",
-      url = "https://api.deepseek.com/beta/completions",
-      disable_url_path_completion = true,
-      api_token = function()
-        return os.getenv("DEEPSEEK_API_KEY")
-      end,
-      enable_suggestions_on_startup = true,
-      accept_keymap = "<Tab>",
-      dismiss_keymap = "<S-Tab>",
-      debounce_ms = 300,
-      request_body = {
-        temperature = 0.2,
-        max_tokens = 64,
+      provider = "openai",
+      auto_suggestions_provider = "openai",
+      providers = {
+        openai = {
+          endpoint = "https://api.deepseek.com/v1",
+          model = "deepseek-chat",
+          api_key_name = "DEEPSEEK_API_KEY",
+        },
+      },
+      behaviour = {
+        auto_suggestions = false,
+        auto_set_keymaps = false,
       },
     },
   },
