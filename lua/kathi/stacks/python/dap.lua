@@ -85,7 +85,10 @@ function M.setup()
     end),
     django_launch("Django: test (cursor)", function()
       local target = django.test_target_at_cursor()
-      return target and { "test", target } or { "test" }
+      if target and target ~= "" then
+        return { "test", "--keepdb", "-v", "3", target }
+      end
+      return { "test", "--keepdb", "-v", "3" }
     end),
     {
       type = "python",

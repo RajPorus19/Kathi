@@ -26,7 +26,9 @@ return {
         },
         format_on_save = function(bufnr)
           local ft = vim.bo[bufnr].filetype
-          return ft == "python" or ft == "djangohtml"
+          if ft == "python" or ft == "djangohtml" then
+            return { lsp_fallback = false }
+          end
         end,
       })
 

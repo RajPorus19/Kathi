@@ -95,10 +95,23 @@ end
 
 function M.file_to_module(filepath, root)
   root = root or M.project_root()
-  if not root or not filepath then
+  if not root or not filepath or filepath == "" then
     return nil
   end
-  return filepath:gsub("^" .. root .. "/", ""):gsub("%.py$", ""):gsub("/", ".")
+
+  local normalized_filepath = vim.fn.fnamemodify(filepath, ":p")
+  local normalized_root = vim.fn.fnamemodify(root, ":p"):gsub("/$", "")
+
+  if not vim.startswith(normalized_filepath, normalized_root .. "/") then
+    return nil
+  end
+
+  local rel = normalized_filepath:sub(#normalized_root + 2)
+  if rel == "" then
+    return nil
+  end
+
+  return rel:gsub("%.py$", ""):gsub("/", ".")
 end
 
 function M.test_target_at_cursor()

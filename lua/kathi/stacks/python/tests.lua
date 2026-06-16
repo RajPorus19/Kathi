@@ -3,6 +3,7 @@ local django = require("kathi.stacks.python.django")
 
 local M = {
   last_test_cmd = nil,
+  default_flags = "--keepdb -v 3",
 }
 
 function M.run_in_terminal(cmd)
@@ -20,8 +21,19 @@ function M.run_test(target)
   if not manage_py then
     return
   end
+  if not target or target == "" then
+    notify.error("Empty test target — place cursor on a test or open a test file", "kathi.python")
+    return
+  end
   local python = django.python_executable()
-  local cmd = string.format('cd "%s" && %s "%s" test %s', root, python, manage_py, target or "")
+  local cmd = string.format(
+    'cd "%s" && %s "%s" test %s %s',
+    root,
+    python,
+    manage_py,
+    M.default_flags,
+    target
+  )
   M.run_in_terminal(cmd)
 end
 
