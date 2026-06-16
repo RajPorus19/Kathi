@@ -9,8 +9,57 @@ return {
   },
   {
     "williamboman/mason-lspconfig.nvim",
-    dependencies = { "williamboman/mason.nvim" },
-    config = true,
+    dependencies = {
+      "williamboman/mason.nvim",
+      "neovim/nvim-lspconfig",
+      "hrsh7th/cmp-nvim-lsp",
+    },
+    config = function()
+      require("mason").setup()
+      require("mason-lspconfig").setup({
+        ensure_installed = {
+          "lua_ls",
+          "pyright",
+          "ts_ls",
+          "rust_analyzer",
+          "gopls",
+          "dartls",
+          "bashls",
+          "jsonls",
+          "yamlls",
+          "html",
+          "cssls",
+        },
+        automatic_installation = true,
+      })
+
+      -- Shared on_attach for all LSP servers
+      local on_attach = function(client, bufnr)
+        local map = vim.keymap.set
+        local opts = { buffer = bufnr, noremap = true, silent = true }
+
+        map("n", "gd", vim.lsp.buf.definition, opts)
+        map("n", "gy", vim.lsp.buf.type_definition, opts)
+        map("n", "gi", vim.lsp.buf.implementation, opts)
+        map("n", "gr", vim.lsp.buf.references, opts)
+        map("n", "K", vim.lsp.buf.hover, opts)
+        map("n", "<leader>rn", vim.lsp.buf.rename, opts)
+        map("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+        map("n", "[d", vim.diagnostic.goto_prev, opts)
+        map("n", "]d", vim.diagnostic.goto_next, opts)
+      end
+
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+      require("mason-lspconfig").setup_handlers({
+        function(server_name)
+          require("lspconfig")[server_name].setup({
+            on_attach = on_attach,
+            capabilities = capabilities,
+          })
+        end,
+      })
+    end,
   },
 
   -- ═══ Completion ═══
