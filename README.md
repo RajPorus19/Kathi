@@ -1,4 +1,4 @@
-# 🪚 Kathi
+# 🔪 Kathi
 
 **கத்தி** (Tamil: *knife*)
 
