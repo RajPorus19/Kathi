@@ -1,3 +1,5 @@
+local docs = require("kathi.stacks.godot.docs")
+
 local M = {}
 
 local GODOT_FTS = { gdscript = true, gdshader = true, gdresource = true, csharp = true }
@@ -62,7 +64,9 @@ function M.setup_buffer_keymaps(bufnr)
   local map = vim.keymap.set
   local ft = vim.bo[bufnr].filetype
 
-  map("n", "gK", "<cmd>GodotDocs<cr>", map_opts(bufnr, "Godot class docs"))
+  map("n", "gK", function()
+    docs.open()
+  end, map_opts(bufnr, "Godot class docs"))
   map("n", "<leader>gl", "<cmd>GodotReconnectLSP<cr>", map_opts(bufnr, "Godot reconnect LSP"))
   map("n", "<leader>gp", "<cmd>GodotRunProject<cr>", map_opts(bufnr, "Godot run project"))
   map("n", "<leader>gS", "<cmd>GodotRunScenePicker<cr>", map_opts(bufnr, "Godot run scene picker"))
@@ -95,6 +99,7 @@ function M.setup_buffer_keymaps(bufnr)
 end
 
 function M.setup()
+  docs.setup()
   M.setup_dap()
 
   local group = vim.api.nvim_create_augroup("KathiGodot", { clear = true })

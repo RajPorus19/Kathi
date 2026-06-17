@@ -67,6 +67,7 @@ Enable **Advanced Settings** in Editor Settings, then:
 
 | Command | Description |
 |---------|-------------|
+| `:KathiGodotDocs [Class]` | Class reference (RST-first; recommended over `:GodotDocs`) |
 | `:GodotDocs [Class]` | Class reference docs (float; uses symbol under cursor if omitted) |
 | `:GodotDocsFloat [Class]` | Docs in a floating window |
 | `:GodotDocsBuffer [Class]` | Docs in a side buffer |
@@ -93,7 +94,7 @@ Leader is `<Space>`. All Godot workflow maps below are **buffer-local** and requ
 
 | Key | Action | Active on |
 |-----|--------|-----------|
-| `gK` | Godot class reference (`:GodotDocs`) | All Godot project buffers |
+| `gK` | Godot class reference (`:KathiGodotDocs`) | All Godot project buffers |
 | `K` | LSP hover (global, all stacks) | Any LSP-attached buffer |
 | `<leader>gl` | Reconnect LSP | All Godot project buffers |
 | `<leader>gh` | Toggle inline hints | `gdscript` only |
@@ -163,8 +164,29 @@ godotdev registers Godot DAP launch configs; pick one when prompted by `<leader>
 
 | Problem | Try |
 |---------|-----|
+| Docs never find anything | See [Why docs fail](#why-docs-lookup-fails) below |
 | No completion / diagnostics | Godot editor open? LSP enabled? Run `<leader>gl` |
 | No Godot keymaps | Is `project.godot` in a parent directory? |
 | Formatter warning | Install `gdscript-formatter` and ensure it’s on `PATH` |
 | C# debug fails | Run `:Mason` and install `netcoredbg`; check `dotnet --version` |
 | Docs don’t load | Ensure `curl` is installed and network is available |
+
+### Why docs lookup fails
+
+`:GodotDocs` / `gK` only look up **Godot class names** (PascalCase types like `Node`, `CharacterBody2D`), not methods, properties, or variables.
+
+- Cursor on `move_and_slide`, `get_node`, or `player` → will not match a class page. Use `K` for LSP hover on those.
+- Cursor on `Node2D` inside `extends Node2D` → should work.
+
+**Rate limiting:** godotdev.nvim's `:GodotDocs` verifies pages by fetching HTML from `docs.godotengine.org` first. That host often returns HTTP 429 (rate limit), so lookups fail even when the GitHub RST source is reachable.
+
+Kathi's `gK` and `:KathiGodotDocs` bypass that check and fetch RST from GitHub directly, falling back to your browser if needed. Prefer those over `:GodotDocs`.
+
+Quick test:
+
+```vim
+:KathiGodotDocs Node
+```
+
+If that works but `gK` does not, your cursor is probably not on a class name.
+
