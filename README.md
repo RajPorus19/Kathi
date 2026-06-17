@@ -23,12 +23,15 @@ Just as a cook needs a sharp, trusted **kathi** to work with precision and speed
 │   │   ├── debug.lua           # DAP plugin layer
 │   │   └── godot.lua           # godotdev.nvim (Godot 4)
 │   ├── stacks/
+│   │   ├── README.md           # Stack index + shared LSP keymaps
 │   │   ├── python/
+│   │   │   ├── README.md       # Python/Django stack docs
 │   │   │   ├── init.lua        # Python stack entrypoint
 │   │   │   ├── django.lua      # Django root/settings/target detection
 │   │   │   ├── tests.lua       # manage.py test runner
 │   │   │   └── dap.lua         # DAP profiles + stack keymaps
 │   │   └── godot/
+│   │       ├── README.md       # Godot/GDScript stack docs
 │   │       └── init.lua        # Godot project keymaps + DAP
 │   ├── utils/
 │   │   ├── notify.lua          # Notification helpers
@@ -59,7 +62,7 @@ All the original keybindings (`<leader>op` for file tree, `<leader>sp` for searc
 
 - `core/*`: editor-global behavior only (options, generic keymaps, generic autocmds).
 - `plugins/*`: lazy specs grouped by concern (UI/editor/git/LSP/completion/debug).
-- `stacks/<lang>/*`: stack-specific workflows (Python/Django/Celery, Godot/GDScript).
+- `stacks/<lang>/*`: stack-specific workflows (Python/Django/Celery, Godot/GDScript). Each stack has its own [README](lua/kathi/stacks/README.md) with plugins, commands, and keybindings.
 - Stack keymaps live in the stack module, not in global `core/keymaps.lua`.
 - Keep side effects inside `setup()` functions where possible.
 
@@ -95,6 +98,8 @@ If plugins don't appear after cloning, run `:Lazy sync` inside Neovim.
 Then update Treesitter parsers manually with `:TSUpdate`.
 
 ## Django / Celery — tests & debug (DAP)
+
+See [stacks/python/README.md](lua/kathi/stacks/python/README.md) for the full Python stack reference (plugins, commands, keybindings, and workflows).
 
 When working on a Django project, Kathi can run unit tests and debug views, tests, and Celery tasks directly from the editor.
 
@@ -151,6 +156,8 @@ Tests open in a horizontal terminal split. Fix code, then `<leader>tr` to rerun.
 - For Celery task breakpoints, the worker must run with `--pool=solo` (configured automatically)
 
 ## Godot / GDScript (Godot 4)
+
+See [stacks/godot/README.md](lua/kathi/stacks/godot/README.md) for the full Godot stack reference (plugins, commands, keybindings, prerequisites, and troubleshooting).
 
 Kathi integrates with [godotdev.nvim](https://github.com/Mathijs-Bakker/godotdev.nvim) for GDScript, GDShader, scene resources, and optional C# in Godot projects. Godot keymaps are **buffer-local** and only active when a `project.godot` file exists in an ancestor directory.
 
