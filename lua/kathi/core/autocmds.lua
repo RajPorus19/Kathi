@@ -78,6 +78,7 @@ autocmd("FileType", {
     "python", "javascript", "typescript",
     "html", "djangohtml", "css", "json", "yaml", "markdown",
     "bash", "sh", "c", "cpp", "rust", "go", "dart",
+    "gdscript", "gdshader", "gdresource",
   },
   callback = function()
     -- Defer so async parser installs can finish; never error on open.

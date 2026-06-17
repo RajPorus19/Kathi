@@ -20,13 +20,16 @@ Just as a cook needs a sharp, trusted **kathi** to work with precision and speed
 │   │   ├── editor.lua          # Telescope, neo-tree, treesitter, rooter...
 │   │   ├── ui.lua              # Theme, lualine, which-key
 │   │   ├── git.lua             # Neogit + gitsigns
-│   │   └── debug.lua           # DAP plugin layer
+│   │   ├── debug.lua           # DAP plugin layer
+│   │   └── godot.lua           # godotdev.nvim (Godot 4)
 │   ├── stacks/
-│   │   └── python/
-│   │       ├── init.lua        # Python stack entrypoint
-│   │       ├── django.lua      # Django root/settings/target detection
-│   │       ├── tests.lua       # manage.py test runner
-│   │       └── dap.lua         # DAP profiles + stack keymaps
+│   │   ├── python/
+│   │   │   ├── init.lua        # Python stack entrypoint
+│   │   │   ├── django.lua      # Django root/settings/target detection
+│   │   │   ├── tests.lua       # manage.py test runner
+│   │   │   └── dap.lua         # DAP profiles + stack keymaps
+│   │   └── godot/
+│   │       └── init.lua        # Godot project keymaps + DAP
 │   ├── utils/
 │   │   ├── notify.lua          # Notification helpers
 │   │   └── paths.lua           # Path helpers
@@ -56,7 +59,7 @@ All the original keybindings (`<leader>op` for file tree, `<leader>sp` for searc
 
 - `core/*`: editor-global behavior only (options, generic keymaps, generic autocmds).
 - `plugins/*`: lazy specs grouped by concern (UI/editor/git/LSP/completion/debug).
-- `stacks/<lang>/*`: stack-specific workflows (for now: Python/Django/Celery).
+- `stacks/<lang>/*`: stack-specific workflows (Python/Django/Celery, Godot/GDScript).
 - Stack keymaps live in the stack module, not in global `core/keymaps.lua`.
 - Keep side effects inside `setup()` functions where possible.
 
@@ -146,6 +149,52 @@ Tests open in a horizontal terminal split. Fix code, then `<leader>tr` to rerun.
 - `DJANGO_SETTINGS_MODULE` is read automatically from `manage.py`
 - Celery app name (`-A`) is guessed from `celery.py` or settings; you'll be prompted if ambiguous
 - For Celery task breakpoints, the worker must run with `--pool=solo` (configured automatically)
+
+## Godot / GDScript (Godot 4)
+
+Kathi integrates with [godotdev.nvim](https://github.com/Mathijs-Bakker/godotdev.nvim) for GDScript, GDShader, scene resources, and optional C# in Godot projects. Godot keymaps are **buffer-local** and only active when a `project.godot` file exists in an ancestor directory.
+
+### Prerequisites
+
+- Godot 4.x on `PATH` as `godot`
+- Godot editor open with your project and **TCP LSP enabled** (Editor Settings → Network → Language Server)
+- `curl` (for in-editor class reference docs)
+- `gdscript-formatter` on `PATH` ([install](https://github.com/GDQuest/GDScript-formatter))
+- For C#: .NET SDK; `csharp_ls` and `netcoredbg` install via Mason on first use
+
+### Godot editor settings (one-time)
+
+Enable **Advanced Settings**, then:
+
+1. Network → Language Server → enable TCP LSP; enable **Use Thread**
+2. Text Editor → Behavior → **Auto Reload Scripts on External Change**
+3. Interface → Editor → **Save on Focus Loss**
+4. Text Editor → External → point to Neovim using [godotdev's external-editor setup](https://github.com/Mathijs-Bakker/godotdev.nvim/blob/master/doc/neovim-external-editor-setup.md)
+
+### Workflow
+
+1. Open the project in Godot (LSP must be running)
+2. Open the same project root in Neovim (`project.godot` present)
+3. Edit `.gd` files — LSP attaches automatically; `K` for hover, `gK` for class docs
+4. Run `:checkhealth godotdev` to verify LSP, debugger, formatter, and C# tooling
+
+### Godot keymaps (project buffers only)
+
+| Keymap | Action |
+|--------|--------|
+| `gK` | Godot class reference docs |
+| `<leader>gl` | Reconnect Godot LSP |
+| `<leader>gh` | Toggle inline hints (GDScript) |
+| `<leader>gp` | Run project |
+| `<leader>gs` | Run current scene (`.gd` / `.cs`) |
+| `<leader>gS` | Pick scene to run (Telescope) |
+| `<leader>gt` | Scene tree pane |
+| `<leader>gR` | Refresh scene tree |
+| `<leader>gD` | Start Godot debug session |
+
+On `.gd` / `.cs` buffers inside a Godot project, the same `<leader>d*` debug keys as Python apply buffer-locally (`db`, `dc`, `do`, `di`, `dO`, `du`, `de`, `dx`).
+
+Optional: install the [godotdev.nvim-node-copy](https://github.com/Mathijs-Bakker/godotdev.nvim-node-copy) Godot addon to copy node paths into Neovim.
 
 ## Philosophy
 

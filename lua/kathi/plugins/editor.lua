@@ -62,13 +62,14 @@ return {
         "markdown", "markdown_inline",
         "bash", "c", "cpp", "rust", "go",
         "dart",
+        "gdscript", "godot_resource", "gdshader",
       })
     end,
   },
   {
     "airblade/vim-rooter",
     init = function()
-      vim.g.rooter_patterns = { ".git", "Makefile", "manage.py" }
+      vim.g.rooter_patterns = { ".git", "Makefile", "manage.py", "project.godot" }
     end,
   },
   {

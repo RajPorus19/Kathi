@@ -8,6 +8,7 @@ local groups = {
   require("kathi.plugins.ui"),
   require("kathi.plugins.git"),
   require("kathi.plugins.debug"),
+  require("kathi.plugins.godot"),
 }
 
 for _, group in ipairs(groups) do

@@ -39,6 +39,7 @@ return {
           "yamlls",
           "html",
           "cssls",
+          "csharp_ls",
         },
       })
     end,
