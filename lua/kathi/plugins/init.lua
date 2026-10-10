@@ -3,6 +3,7 @@ local M = {}
 local groups = {
   require("kathi.plugins.lsp"),
   require("kathi.plugins.completion"),
+  require("kathi.plugins.llama"),
   require("kathi.plugins.editor"),
   require("kathi.plugins.formatting"),
   require("kathi.plugins.ui"),

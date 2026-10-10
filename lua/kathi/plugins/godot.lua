@@ -10,7 +10,7 @@ return {
     },
     config = function()
       require("godotdev").setup({
-        csharp = true,
+        csharp = false,
         treesitter = { auto_setup = false },
       })
       require("kathi.stacks.godot").setup()
